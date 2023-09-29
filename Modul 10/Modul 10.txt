@@ -1,0 +1,66 @@
+PERCOBAAN 
+Nomor 5 :
+SELECT * FROM nasabah where nasabah.id_nasabah 
+IN (select DISTINCT transaksi.id_nasabahFK from transaksi 
+where jenis_transaksi=’kredit’);
+
+Nomor 6 :
+SELECT * FROM nasabah where nasabah.id_nasabah 
+NOT IN (select DISTINCT transaksi.id_nasabahFK from transaksi);
+
+Nomor 7 :
+SELECT cabang_bank.kode_cabang, cabang_bank.nama_cabang, 
+AVG(rekening.saldo) as rata2 from cabang_bank, rekening where 
+cabang_bank.kode_cabang=rekening.kode_cabangFK group by 
+cabang_bank.kode_cabang having rata2 >= ALL (select AVG (saldo) 
+FROM `rekening` group by kode_cabangFK); 
+
+Nomor 8 :
+Select * from transaksi where jumlah > (SELECT AVG(jumlah) FROM 
+`transaksi`);
+
+
+TUGAS
+Nomor 1 :
+SELECT MAX(jumlah) AS jumlah_terbesar
+FROM transaksi;
+
+Nomor 2 :
+SELECT MIN(jumlah) AS jumlah_terbesar
+FROM transaksi;
+
+Nomor 3 :
+SELECT * FROM nasabah
+WHERE id_nasabah 
+IN (SELECT id_nasabahFK FROM transaksi 
+WHERE jumlah IN (SELECT MAX(jumlah) FROM transaksi));
+
+Nomor 4 :
+SELECT * FROM cabang_bank
+WHERE cabang_bank.kode_cabang
+NOT IN (SELECT kode_cabang FROM rekening WHERE no_rekening);
+
+Nomor 5 :
+SELECT no_rekening
+FROM rekening
+WHERE saldo >= (SELECT AVG(saldo) FROM rekening);
+
+Nomor 6 :
+SELECT * FROM nasabah
+WHERE id_nasabah 
+IN (SELECT id_nasabahFK FROM transaksi 
+WHERE jumlah IN (SELECT MIN(jumlah) FROM transaksi));
+
+SELECT * FROM rekening WHERE saldo > (SELECT AVG(saldo) FROM 
+rekening);
+
+SELECT * FROM nasabah WHERE nasabah.id_nasabah IN
+(SELECT DISTINCT transaksi.id_nasabahFK FROM transaksi 
+WHERE jenis_transaksi=’debit’);
+
+SELECT * FROM transaksi
+WHERE jumlah <= (SELECT AVG(jumlah) FROM transaksi);
+
+SELECT * FROM cabang_bank
+WHERE kode_cabang
+IN (SELECT rekening.kode_cabangFK FROM rekening WHERE saldo <=100000);

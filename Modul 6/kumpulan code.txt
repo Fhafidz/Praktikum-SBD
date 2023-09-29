@@ -1,0 +1,19 @@
+select nama_nasabah, alamat_nasabah from nasabah order by nama_nasabah;
+
+select jenis_transaksi, jumlah from transaksi where jenis_transaksi = 'kredit';
+
+select jenis_transaksi, jumlah from transaksi where tanggal= '2009-11-21' order by jumlah;
+
+select nama_nasabah, jenis_transaksi, jumlah from nasabah, transaksi where jumlah = 20000;
+
+select nama_nasabah, alamat_nasabah from nasabah where nama_nasabah like 'su%';
+
+select no_rekening, kode_cabangFK, saldo from rekening where kode_cabangFK = 'BRUS' and saldo >= 100000;
+
+select id_nasabahFK, no_rekeningFK, jenis_transaksi, jumlah from transaksi where jenis_transaksi = 'debit' and no_rekeningFK >= 105 and jumlah >= 100000;
+
+select * from transaksi order by no_transaksi limit 2 offset 4;
+
+select * from rekening where kode_cabangFK = 'BRUB' and saldo is not null;
+
+select nama_nasabah, alamat_nasabah from nasabah where nama_nasabah like '%o' and nama_nasabah is not null order by nama_nasabah limit 4 offset 1;

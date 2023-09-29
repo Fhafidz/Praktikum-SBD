@@ -1,0 +1,68 @@
+Nomor 5 :
+CREATE USER 'myuser'@'localhost' identified by 'myuser';
+
+Nomor 6 :
+GRANT SELECT on perbankan.nasabah to myuser;
+FLUSH PRIVILEGES;
+GRANT SELECT on perbankan.cabang_bank to myuser;
+FLUSH PRIVILEGES;
+
+Nomor 7 :
+exit
+
+Nomor 8 :
+Mysql -u myuser -p
+
+Nomor 9 :
+use perbankan;
+
+Nomor 10 :
+SELECT * FROM nasabah;
+
+INSERT INTO nasabah VALUES ('31', 'Susilo', 'Sukoharjo');
+
+Nomor 11 :
+exit
+Mysql -u root -p
+
+Nomor 12 :
+REVOKE SELECT on perbankan.nasabah from myuser;
+FLUSH PRIVILEGE;
+
+Nomor 13 :
+exit
+Mysql -u myuser -p
+
+Nomor 14 :
+use perbankan;
+
+Nomor 15 :
+SELECT * FROM nasabah;
+
+
+TUGAS
+
+Nomor 1 :
+CREATE USER 'frhafidz'@'localhost' identified by '8989';
+
+Nomor 2 :
+GRANT INSERT on perbankan.nasabah to frhafidz;
+FLUSH PRIVILEGES;
+
+GRANT UPDATE on perbankan.nasabah to frhafidz;
+FLUSH PRIVILEGES;
+
+GRANT DELETE on perbankan.nasabah to frhafidz;
+FLUSH PRIVILEGES;
+
+GRANT SELECT on perbankan.cabang_bank to frhafidz;
+FLUSH PRIVILEGES;
+
+Nomor 3 :
+SELECT * FROM nasabah;
+
+INSERT INTO nasabah VALUES ('31', 'Cookie', 'Surakarta');
+
+INSERT INTO cabang_bank VALUES ('BRK', 'Bank Rut Unit Kudus', 'Jl. Jendral Soedirman 69');
+
+Nomor 4 :

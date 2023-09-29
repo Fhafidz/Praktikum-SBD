@@ -1,0 +1,105 @@
+SELECT nama_cabang, alamat_cabang FROM cabang_bank ORDER BY nama_cabang;
+
+SELECT no_rekening, pin, saldo FROM rekening ORDER BY saldo DESC;
+
+SELECT rekening.no_rekening, nasabah.nama_nasabah, nasabah.alamat_nasabah 
+FROM rekening, nasabah, nasabah_has_rekening 
+WHERE nasabah.id_nasabah= nasabah_has_rekening.id_nasabahFK 
+AND rekening.no_rekening=nasabah_has_rekening.no_rekeningFK 
+ORDER BY nasabah.nama_nasabah;
+
+SELECT rekening.no_rekening, nasabah.nama_nasabah, rekening.saldo 
+FROM rekening, nasabah, nasabah_has_rekening 
+WHERE nasabah.id_nasabah= nasabah_has_rekening.id_nasabahFK 
+AND rekening.no_rekening= nasabah_has_rekening.no_rekeningFK 
+ORDER BY nasabah.nama_nasabah;
+
+Nomor 1 :
+
+SELECT nama_nasabah, alamat_nasabah, jenis_transaksi, jumlah 
+FROM nasabah INNER JOIN transaksi ON nasabah.id_nasabah = transaksi.id_nasabahFK 
+WHERE jenis_transaksi = 'kredit' ORDER BY nama_nasabah;
+
+SELECT DISTINCT nama_nasabah, alamat_nasabah, jenis_transaksi, jumlah 
+FROM nasabah NATURAL JOIN transaksi
+WHERE jenis_transaksi = 'kredit' ORDER BY nama_nasabah;
+
+SELECT nama_nasabah, alamat_nasabah, jenis_transaksi, jumlah 
+FROM nasabah INNER JOIN transaksi USING(id_nasabahFK)
+WHERE jenis_transaksi = 'kredit' ORDER BY nama_nasabah;
+
+Nomor 2 :
+
+SELECT no_rekeningFK, nama_nasabah, jenis_transaksi, jumlah
+FROM nasabah INNER JOIN transaksi ON nasabah.id_nasabah = transaksi.id_nasabahFK
+WHERE tanggal='2009-11-21' ORDER BY nama_nasabah;
+
+SELECT DISTINCT no_rekeningFK, nama_nasabah, jenis_transaksi, jumlah
+FROM nasabah NATURAL JOIN transaksi
+WHERE tanggal='2009-11-21' ORDER BY nama_nasabah;
+
+SELECT no_rekeningFK, nama_nasabah, jenis_transaksi, jumlah
+FROM nasabah INNER JOIN transaksi USING(id_nasabahFK)
+WHERE tanggal='2009-11-21' ORDER BY nama_nasabah;
+
+Nomor 3 :
+
+SELECT no_rekening, nama_nasabah, jenis_transaksi, jumlah
+FROM rekening INNER JOIN transaksi ON rekening.no_rekening = transaksi.no_rekeningFK
+INNER JOIN nasabah ON transaksi.id_nasabahFK = nasabah.id_nasabah
+WHERE jumlah=20000;
+
+SELECT DISTINCT no_rekening, nama_nasabah, jenis_transaksi, jumlah
+FROM rekening NATURAL JOIN transaksi NATURAL JOIN nasabah
+WHERE jumlah=20000;
+
+SELECT no_rekening, nama_nasabah, jenis_transaksi, jumlah
+FROM rekening INNER JOIN transaksi INNER JOIN nasabah USING(id_nasabah, no_rekening)
+WHERE jumlah=20000;
+
+Nomor 4 :
+
+SELECT no_rekeningFK, nama_nasabah, alamat_nasabah 
+FROM nasabah_has_rekening INNER JOIN nasabah ON nasabah_has_rekening.id_nasabahFK = nasabah.id_nasabah
+WHERE nama_nasabah like 'su%';
+
+SELECT DISTINCT no_rekeningFK, nama_nasabah, alamat_nasabah
+FROM nasabah_has_rekening NATURAL JOIN nasabah
+WHERE nama_nasabah like 'su%';
+
+SELECT no_rekeningFK, nama_nasabah, alamat_nasabah
+FROM nasabah_has_rekening INNER JOIN nasabah USING(id_nasabahFK, no_rekeningFK)
+WHERE nama_nasabah like 'su%';
+
+Nomor 5 :
+
+SELECT no_rekening AS 'Nomor Rekening', nama_nasabah AS 'Nama Nasabah', jumlah AS 'Jumlah Transaksi' 
+FROM rekening INNER JOIN transaksi ON rekening.no_rekening = transaksi.no_rekeningFK 
+INNER JOIN nasabah ON transaksi.id_nasabahFK = nasabah.id_nasabah 
+WHERE jenis_transaksi = 'debit' ORDER BY nama_nasabah;
+
+Nomor 6 :
+
+SELECT nama_nasabah, no_rekeningFK, jenis_transaksi, jumlah
+FROM nasabah INNER JOIN transaksi ON nasabah.id_nasabah = transaksi.id_nasabahFK
+WHERE nama_nasabah like 'su%' AND no_rekeningFK = 105 AND jenis_transaksi = 'debit' AND jumlah=50000 ORDER BY nama_nasabah;
+
+
+SELECT no_transaksi, no_rekeningFK, nama_nasabah, jenis_transaksi, jumlah
+FROM nasabah INNER JOIN transaksi ON nasabah.id_nasabah = transaksi.id_nasabahFK
+WHERE nama_nasabah like 'ma%' AND no_rekeningFK = 103 AND jenis_transaksi = 'debit' AND jumlah>20000 ORDER BY no_transaksi;
+
+
+SELECT nama_nasabah, no_rekeningFK, jenis_transaksi, jumlah
+FROM nasabah INNER JOIN transaksi ON nasabah.id_nasabah = transaksi.id_nasabahFK
+WHERE nama_nasabah like 'ka%' AND no_rekeningFK = 101 AND jenis_transaksi = 'kredit' AND jumlah>10000 ORDER BY jumlah;
+
+
+SELECT nama_nasabah, no_rekeningFK, jenis_transaksi, jumlah, tanggal
+FROM nasabah INNER JOIN transaksi ON nasabah.id_nasabah = transaksi.id_nasabahFK
+WHERE nama_nasabah like 'bu%' AND no_rekeningFK = 102 AND jenis_transaksi = 'debit' AND jumlah>10000 ORDER BY tanggal;
+
+
+SELECT id_nasabah, nama_nasabah, no_rekeningFK, jenis_transaksi, jumlah
+FROM nasabah INNER JOIN transaksi ON nasabah.id_nasabah = transaksi.id_nasabahFK
+WHERE nama_nasabah like 'ca%' AND no_rekeningFK = 110 AND jenis_transaksi = 'debit' AND jumlah>50000 ORDER BY id_nasabah;

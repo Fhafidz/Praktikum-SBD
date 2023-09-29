@@ -1,0 +1,117 @@
+CREATE DATABASE service_mobil;
+
+Tabel Customer :
+CREATE TABLE customer (
+id_customer VARCHAR(20) PRIMARY KEY NOT NULL,
+nama_customer VARCHAR(255) NOT NULL,
+alamat_customer VARCHAR(255) NOT NULL
+);
+
+INSERT INTO customer (id_customer, nama_customer, alamat_customer) VALUES
+('C1', 'Budi Susanto', 'Jl. Diponegoro No. 123'),
+('C2', 'Anita Sari', 'Jl. Sudirman No. 456'),
+('C3', 'Ahmad Hidayat', 'Jl. Ahmad Yani No. 789'),
+('C4', 'Rina Wijaya', 'Jl. Merdeka No. 321'),
+('C5', 'Eko Prasetyo', 'Jl. Gajah Mada No. 654'),
+('C6', 'Siti Rahayu', 'Jl. Asia Afrika No. 987'),
+('C7', 'Joko Santoso', 'Jl. Veteran No. 135'),
+('C8', 'Dewi Indah', 'Jl. Pahlawan No. 864'),
+('C9', 'Hendra Wijaya', 'Jl. Raya Bogor No. 246'),
+('C10', 'Ratna Kusuma', 'Jl. Gatot Subroto No. 573');
+
+
+
+Tabel Mobil :
+CREATE TABLE mobil (
+id_mobil VARCHAR(20) PRIMARY KEY NOT NULL,
+id_customerFK VARCHAR(20) REFERENCES customer(id_customer) ON UPDATE CASCADE ON DELETE CASCADE,
+nama_mobil VARCHAR(20) NOT NULL,
+tipe_mobil VARCHAR(20) NOT NULL,
+warna_mobil VARCHAR(20) NOT NULL
+);
+
+INSERT INTO mobil (id_mobil, id_customerFK, nama_mobil, tipe_mobil, warna_mobil) VALUES
+('AD 1234 AB', 'C5', 'Mitsubishi Xpander', 'MPV', 'Putih'),
+('AD 1345 CB', 'C1', 'Toyota Innova Zenix', 'MPV', 'Putih'),
+('AD 1456 DC', 'C3', 'Mitsubishi Pajero Sport', 'SUV', 'Hitam'),
+('AB 1080 FE', 'C2', 'Toyota Fortuner', 'SUV', 'Abu-abu'),
+('AB 1678 SA', 'C7', 'Hyundai Santafe', 'SUV', 'Coklat'),
+('AB 1159 AC', 'C4', 'Honda Civic Type R', 'Hatchback', 'Merah'),
+('H 1631 BA', 'C9', 'Audi A8', 'Sedan', 'Hitam'),
+('H 1378 CE', 'C10', 'Mitsubishi Xpander', 'MPV', 'Silver'),
+('K 1119 ED', 'C6', 'Mitsubishi Triton', 'Double Cabin', 'Putih'),
+('K 1099 NR', 'C8', 'Hyundai Palisade', 'SUV', 'Hitam');
+
+
+
+
+Tabel Service:
+CREATE TABLE service(
+id_service VARCHAR(20) PRIMARY KEY NOT NULL,
+id_mobilFK VARCHAR(20) REFERENCES mobil(id_mobil) ON UPDATE CASCADE ON DELETE CASCADE,
+jenis_service VARCHAR(20) NOT NULL,
+harga_service INTEGER NOT NULL
+);
+
+INSERT INTO service (id_service, id_mobilFK, jenis_service, harga_service) VALUES
+('S1', 'K 1099 NR', 'Servis A', 400000),
+('S2', 'AD 1234 AB', 'Servis B', 600000),
+('S3', 'K 1119 ED', 'Servis A', 400000),
+('S4', 'AD 1345 CB', 'Servis C', 800000),
+('S5', 'H 1378 CE', 'Servis B', 600000),
+('S6', 'AD 1456 DC', 'Servis B', 600000),
+('S7', 'H 1631 BA', 'Servis C', 800000),
+('S8', 'AB 1080 FE', 'Servis B', 600000),
+('S9', 'AB 1159 AC', 'Servis C', 800000),
+('S10', 'AB 1678 SA', 'Servis A', 400000);
+
+
+Tabel Transaksi :
+CREATE TABLE transaksi(
+id_transaksi VARCHAR(20) PRIMARY KEY NOT NULL,
+id_serviceFK VARCHAR(20) REFERENCES service(id_service) ON UPDATE CASCADE ON DELETE CASCADE,
+id_customerFK VARCHAR(20) REFERENCES customer(id_customer) ON UPDATE CASCADE ON DELETE CASCADE,
+jenis_transaksi VARCHAR(20) NOT NULL,
+tgl_transaksi DATETIME NOT NULL,
+total_transaksi INTEGER NOT NULL
+);
+
+INSERT INTO transaksi (id_transaksi, id_serviceFK, id_customerFK, jenis_transaksi, tgl_transaksi, total_transaksi) VALUES
+('T51', 'S1', 'C10', 'Tunai', '2023/01/10', 425000),
+('T52', 'S2', 'C9', 'Debit', '2023/01/10', 640000),
+('T53', 'S3', 'C8', 'Tunai', '2023/01/11', 425000),
+('T54', 'S4', 'C7', 'E-Cash', '2023/01/11', 850000),
+('T55', 'S5', 'C6', 'Debit', '2023/01/12', 640000),
+('T56', 'S6', 'C5', 'Tunai', '2023/01/15', 640000),
+('T57', 'S7', 'C4', 'E-Cash', '2023/01/18', 850000),
+('T58', 'S8', 'C3', 'Debit', '2023/01/20', 640000),
+('T59', 'S9', 'C2', 'Tunai', '2023/01/27', 850000),
+('T60', 'S10', 'C1', 'E-Cash', '2023/01/30', 425000);
+
+
+
+1.Select all
+	select*from customer;
+	select*from mobil;
+	select*from service;
+	select*from transaksi;
+
+2.Select limit
+	Tampilkan nama_customer pada tabel customer diurutkan berdasarkan nama_customer dengan batas 3 data saja.
+	select*from customer order by nama_customer limit 3;
+3.Join
+	Tampilkan nama_customer, id_mobil, nama_mobil dari semua customer yang memiliki mobil.
+	select nama_customer, id_mobil, nama_mobil from customer inner join mobil on customer.id_customer = mobil.id_customerFK;
+4.Agregasi
+	Tampilkan semua mobil yang jenis mobilnya sama.
+	select*from mobil where tipe_mobil in ('suv');
+5.Subquery
+	Tampilkan data customer yang membayar dengan e-cash
+	select*from customer where id_customer in (select id_customerFK from transaksi where jenis_transaksi = 'E-cash');
+
+
+SELECT nama_customer, id_mobil, nama_mobil, jenis_service, jenis_transaksi, total_transaksi
+FROM customer INNER JOIN mobil ON customer.id_customer = mobil.id_customerFK
+INNER JOIN service ON mobil.id_mobil = service.id_mobilFK
+INNER JOIN transaksi ON service.id_service = transaksi.id_serviceFK;
+

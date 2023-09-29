@@ -1,0 +1,79 @@
+SELECT transaksi.tanggal, transaksi.jenis_transaksi, transaksi.jumlah 
+FROM nasabah, transaksi 
+WHERE nasabah.id_nasabah=transaksi.id_nasabahFK 
+AND nasabah.nama_nasabah IN (‘Sutopo’,’Canka Lokananta’) 
+ORDER BY transaksi.tanggal;
+
+SELECT transaksi.tanggal, nasabah.nama_nasabah, transaksi.jenis_transaksi, transaksi.jumlah 
+FROM nasabah, transaksi 
+WHERE transaksi.tanggal 
+BETWEEN ‘2009-11-15’ AND ‘2009-11-20’ 
+AND nasabah.id_nasabah=transaksi.id_nasabahFK 
+ORDER BY transaksi.tanggal, nasabah.nama_nasabah;
+
+SELECT transaksi.jenis_transaksi AS “Jenis Transaksi”, SUM(jumlah) AS “Jumlah (Rp)” 
+FROM transaksi GROUP BY transaksi.jenis_transaksi 
+ORDER BY transaksi.jenis_transaksi;
+
+SELECT jenis_transaksi AS “Jenis Transaksi”, MAX(jumlah) AS “Transaksi Terbesar”, MIN(jumlah) AS “Transaksi Terkecil” 
+FROM transaksi GROUP BY transaksi.jenis_transaksi 
+ORDER BY transaksi.jenis_transaksi;
+
+SELECT jenis_transaksi AS “Jenis Transaksi”, SUM(jumlah) AS “Jumlah (Rp)”, COUNT(jumlah) AS “Jumlah Transaksi” 
+FROM transaksi WHERE tanggal BETWEEN ‘2009-11-1’ AND ‘2009-11-30’ GROUP BY transaksi.jenis_transaksi 
+ORDER BY transaksi.jenis_transaksi;
+
+
+Nomor 1
+SELECT jenis_transaksi, jumlah, SUM(jumlah) AS total_transaksi
+FROM nasabah, transaksi
+WHERE nama_nasabah LIKE '%Kartika Padmasari'
+GROUP BY jenis_transaksi;
+
+Nomor 2
+SELECT nama_nasabah, SUM(jumlah) AS total_saldo
+FROM nasabah, transaksi 
+WHERE nasabah.id_nasabah = transaksi.id_nasabahFK 
+AND nama_nasabah LIKE '%Maryati'
+GROUP BY nama_nasabah;
+
+Nomer 3
+SELECT kode_cabang, nama_cabang, SUM(saldo) AS total_saldo
+FROM rekening, cabang_bank
+WHERE rekening.kode_cabangFK = cabang_bank.kode_cabang
+GROUP BY kode_cabang;
+
+Nomer 4
+SELECT nama_nasabah, SUM(saldo) AS jumlah_saldo
+FROM rekening, nasabah_has_rekening, nasabah
+WHERE rekening.no_rekening = nasabah_has_rekening.no_rekeningFK 
+AND nasabah_has_rekening.id_nasabahFK = nasabah.id_nasabah
+AND saldo BETWEEN 500000 AND 2000000;
+
+Nomer 5
+SELECT nama_nasabah, tanggal, jumlah AS “Jumlah (Rp)”
+FROM nasabah, transaksi
+WHERE nasabah.id_nasabah = transaksi.id_nasabahFK 
+AND jumlah > 100000
+ORDER BY jumlah DESC;
+
+Nomer 6
+SELECT id_nasabahFK, jenis_transaksi, MIN(jumlah) AS jumlah_terkecil
+FROM transaksi
+WHERE jenis_transaksi = 'debit';
+
+SELECT id_nasabahFK, jenis_transaksi, MAX(jumlah) AS jumlah_terbesar
+FROM transaksi
+WHERE jenis_transaksi = 'kredit';
+
+SELECT COUNT(jenis_transaksi) AS jumlah_debit
+FROM transaksi
+WHERE jenis_transaksi = 'debit';
+
+SELECT jenis_transaksi, SUM(jumlah) AS jumlah_transaksi
+FROM transaksi
+GROUP BY jenis_transaksi;
+
+SELECT jenis_transaksi, AVG(jumlah) AS rataan_transaksi
+FROM transaksi
+GROUP BY jenis_transaksi;
